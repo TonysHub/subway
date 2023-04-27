@@ -6,7 +6,7 @@ $ pyenv --version
 ```
 
 
-### Setup
+## Setup
 #### Getting pyenv
 
 **Skip this step if you already have pyenv**
