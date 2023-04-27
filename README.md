@@ -26,6 +26,11 @@ command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 ```
 #### Clone project
+Move to your project DIR
+```
+$ git clone https://github.com/TonysHub/subway.git
+
+```
 
 #### Install Python version
 At your home DIR,
@@ -42,7 +47,7 @@ $ python3 --version
 ```
 
 #### Setup venv
-At your project DIR
+At your project DIR (~/subway)
 ```
 $ python3 -m venv venv
 $ source venv/bin/activate
