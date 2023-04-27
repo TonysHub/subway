@@ -29,7 +29,6 @@ eval "$(pyenv init -)"
 Move to your project DIR
 ```
 $ git clone https://github.com/TonysHub/subway.git
-
 ```
 
 #### Install Python version
