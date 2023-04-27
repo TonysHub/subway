@@ -31,7 +31,11 @@ Move to your project DIR
 $ git clone https://github.com/TonysHub/subway.git
 ```
 
+
+
 #### Install Python version
+
+
 At your home DIR,
 ```
 $ pyenv install 3.10.0
