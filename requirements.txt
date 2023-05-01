@@ -48,7 +48,6 @@ jupyter_server_terminals==0.4.4
 jupyterlab-pygments==0.2.2
 jupyterlab-widgets==3.0.5
 kiwisolver==1.4.4
-lxml==4.9.2
 MarkupSafe==2.1.2
 matplotlib==3.7.1
 matplotlib-inline==0.1.6
@@ -81,7 +80,6 @@ pyparsing==3.0.9
 pyrsistent==0.19.3
 PySocks==1.7.1
 python-dateutil==2.8.2
-python-dotenv==1.0.0
 python-json-logger==2.0.4
 pytz==2023.3
 PyYAML==6.0
@@ -103,7 +101,6 @@ stack-data==0.6.2
 terminado==0.17.1
 tinycss2==1.2.1
 tornado==6.2
-tqdm==4.65.0
 traitlets==5.8.1
 trio==0.22.0
 trio-websocket==0.10.2
@@ -112,7 +109,6 @@ uri-template==1.2.0
 urllib3==1.26.15
 wcwidth==0.2.6
 webcolors==1.12
-webdriver-manager==3.8.6
 webencodings==0.5.1
 websocket-client==1.4.2
 widgetsnbextension==4.0.5
