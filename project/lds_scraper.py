@@ -33,6 +33,7 @@ class SubwayInfo:
         # 테이블 스크롤 내리고, 데이터 저장
         mouse_tracker = driver.find_element(By.XPATH, '//*[@id="AXGridTarget_AX_scrollYHandle"]')
         res = pd.DataFrame(columns=columns)
+     
         scrollbar = driver.find_element(By.XPATH, '//*[@id="AXGridTarget_AX_scrollTrackY"]')
         scroll_height = scrollbar.size['height']
 
@@ -43,9 +44,13 @@ class SubwayInfo:
         while y < scroll_height:
             ActionChains(driver).move_to_element_with_offset(mouse_tracker, 0, 0).click_and_hold().move_by_offset(0,6).perform()
             tbody = driver.find_element(By.XPATH, '//*[@id="AXGridTarget_AX_tbody"]')
+            
+            # 추출 데이터 형식 변경
             tbody_split = np.array(tbody.text.split('\n')).reshape(-1, 6)
             df = pd.DataFrame(tbody_split, columns=columns)
             res = pd.concat([res, df])
+            
+            # 움직인만큼 y 업데이트
             y += 6
             time.sleep(0.3)
 
@@ -73,9 +78,13 @@ class SubwayInfo:
             ActionChains(driver).move_to_element_with_offset(mouse_tracker, 0, 0).click_and_hold().move_by_offset(0,6).perform()
             html = driver.page_source
             df = pd.read_html(html)[5].iloc[1:-1,:-1]
+            
+            # 현재 데이터 프레임의 가장 마지막 달 추출
             date_of_data  = pd.to_datetime(df[0].iloc[-1], format='%Y%m')
 
             res = pd.concat([res, df])
+            
+            # 마지막 달이 오늘의 달보다 3개월 이상 차이나면 loop break
             if current_date.year*12+current_date.month-(date_of_data.year*12+date_of_data.month) > 3:
                 break
             time.sleep(0.2)
@@ -95,6 +104,8 @@ class SubwayInfo:
 
         # 2개월 이내 데이터만 추출
         res = res.loc[res['사용월'] > current_date - pd.DateOffset(months=3)]
+        
+        return res
 
     def get_driver(self):
         driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
