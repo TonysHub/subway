@@ -1,0 +1,115 @@
+[
+    {
+        "model" : "scraper.Stations",
+        "pk" : 1,
+        "fields" : {
+            "station" : "남구로",
+            "line" : "7호선"
+        }
+    },
+    {
+        "model" : "scraper.Stations",
+        "pk" : 2,
+        "fields" : {
+            "station" : "보라매",
+            "line" : "7호선"
+        }
+    },
+    {
+        "model" : "scraper.Stations",
+        "pk" : 3,
+        "fields" : {
+            "station" : "강남구청",
+            "line" : "7호선"
+        }
+    },
+    {
+        "model" : "scraper.Stations",
+        "pk" : 4,
+        "fields" : {
+            "station" : "서울역",
+            "line" : "1호선"
+        }
+    },
+    {
+        "model" : "scraper.Stations",
+        "pk" : 5,
+        "fields" : {
+            "station" : "종각",
+            "line" : "1호선"
+        }
+    },
+    {
+        "model" : "scraper.Stations",
+        "pk" : 6,
+        "fields" : {
+            "station" : "강남",
+            "line" : "2호선"
+        }
+    },
+    {
+        "model" : "scraper.Stations",
+        "pk" : 7,
+        "fields" : {
+            "station" : "잠실",
+            "line" : "2호선"
+        }
+    },
+    {
+        "model" : "scraper.Stations",
+        "pk" : 8,
+        "fields" : {
+            "station" : "홍대입구",
+            "line" : "2호선"
+        }
+    },
+    {
+        "model" : "scraper.Stations",
+        "pk" : 9,
+        "fields" : {
+            "station" : "고속터미널",
+            "line" : "3호선"
+        }
+    },
+    {
+        "model" : "scraper.Stations",
+        "pk" : 10,
+        "fields" : {
+            "station" : "양재",
+            "line" : "3호선"
+        }
+    },
+    {
+        "model" : "scraper.Stations",
+        "pk" : 11,
+        "fields" : {
+            "station" : "연신내",
+            "line" : "3호선"
+        }
+    },
+    {
+        "model" : "scraper.Stations",
+        "pk" : 12,
+        "fields" : {
+            "station" : "혜화",
+            "line" : "4호선"
+        }
+    },
+    {
+        "model" : "scraper.Stations",
+        "pk" : 13,
+        "fields" : {
+            "station" : "수유",
+            "line" : "4호선"
+        }
+    },
+    {
+        "model" : "scraper.Stations",
+        "pk" : 14,
+        "fields" : {
+            "station" : "쌍문",
+            "line" : "4호선"
+        }
+    }
+
+]
