@@ -1,1 +1,6 @@
 <h1> index </h1>
+
+{% for station in all_stations %}
+    <h2> {{ station.line }} </h2>
+    <h3><a href="{% url 'scraper:details' station.pk %}"> {{ station.station }}</a> </h3>
+{% endfor %}
