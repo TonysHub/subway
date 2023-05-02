@@ -21,5 +21,5 @@ def details(request):
     return render(request, 'scraper/details.html')
 
 class DetailView(generic.DetailView):
-    model = Stations
+    #model = Stations
     template_name = 'scraper/details.html'

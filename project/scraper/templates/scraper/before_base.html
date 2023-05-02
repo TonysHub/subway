@@ -1,0 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script src="https://kit.fontawesome.com/kit_code.js" crossorigin="anonymous">
+    </script>
+    <title>Nav Bar</title>
+  </head>
+
+  <body>
+    <nav class="navbar">
+
+      <div class="navbar__logo">
+        <i class="fas fa-blog"></i>
+        <a href="">SUBWAY</a>
+      </div>
+
+      <ul class="navbar__menu">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Info</a></li>
+        <li><a href="#">asdf</a></li>
+        <li><a href="#">FAQ</a></li>
+      </ul>
+      <form class="d-flex" role="search">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      <ul class="navbar__icons">
+        <li><i class="fab fa-google"></i></li>
+        <li><i class="fab fa-slack"></i></li>
+      </ul>
+    </nav>
+  </body>
+</html>
