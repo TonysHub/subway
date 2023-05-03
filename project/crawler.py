@@ -1,6 +1,7 @@
 import datetime
 import time
 import pandas as pd
+import os.path
 
 from dateutil.relativedelta import relativedelta
 from selenium import webdriver
@@ -203,27 +204,32 @@ def move_to_data(driver, line_name):
 def main():
     lines = ['1호선', '2호선', '3호선',' 4호선', '7호선']
     now = datetime.datetime.now().day
+    path_subway_traffic_daily = 'subway_traffic_daily.csv'
+    path_subway_traffic_month_hourly = 'subway_traffic_month_hourly.csv'
 
-    df_subway_traffic_daily = pd.DataFrame()
-    df_subway_traffic_month_hourly = pd.DataFrame()
-    
+
+    # 파일 존재시 삭제
+    if os.path.isfile(path_subway_traffic_daily):
+        os.remove('subway_traffic_daily.csv')
+    if os.path.isfile(path_subway_traffic_month_hourly):
+        os.remove('subway_traffic_month_hourly.csv')
+
     for line in lines:
-        df1 = subway_traffic_daily(line)
-        df_subway_traffic_daily = pd.concat([df_subway_traffic_daily, df1])
-        time.sleep(0.2)
+        # # case 1
+        # df1 = subway_traffic_daily(line)
+        # df_subway_traffic_daily = pd.concat([df_subway_traffic_daily, df1])
+        # time.sleep(0.2)
+        # # if now == 4: # 매월 4일마다 갱신
+        # df2 =subway_traffic_month_hourly(line)
+        # df_subway_traffic_month_hourly = pd.concat([df_subway_traffic_month_hourly, df2])
+        # time.sleep(0.2)
 
-        # if now == 4: # 매월 4일마다 갱신
-        df2 =subway_traffic_month_hourly(line)
-        df_subway_traffic_month_hourly = pd.concat([df_subway_traffic_month_hourly, df2])
-        time.sleep(0.2)
-
-
-    df_subway_traffic_daily.to_csv('subway_traffic_daily.csv', mode='w', encoding='utf-8')
-    df_subway_traffic_month_hourly.to_csv('subway_traffic_month_hourly.csv', mode='w', encoding='utf-8')
-
-    # return df_subway_traffic_daily, df_subway_traffic_month_hourly
-
+        # case 2
+        subway_traffic_daily(line).to_csv('subway_traffic_daily.csv', mode='a', header=not os.path.exists(path_subway_traffic_daily))
+        subway_traffic_month_hourly(line).to_csv('subway_traffic_month_hourly.csv', mode='a', header=not os.path.exists(path_subway_traffic_month_hourly))
+    
     pass
+    # return df_subway_traffic_daily, df_subway_traffic_month_hourly
 
 if __name__ == "__main__":
     main()
