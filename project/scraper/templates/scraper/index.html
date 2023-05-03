@@ -9,7 +9,7 @@
 
       <!-- Full-width images with number and caption text -->
       {% for station in all_stations %}
-      <div class="mySlides fade">
+      <div class="mySlides">
         <div class="numbertext">{{ forloop.counter }} / {{ all_stations|length }}</div>
         <h2>{{ station.slug }}</h2>
         <a href="{% url 'scraper:line-details' station.slug %}">
@@ -28,7 +28,8 @@
     <!-- The dots/circles -->
     <div style="text-align:center">
       {% for station in all_stations %}
-        <span class="dot" onclick="currentSlide({{ forloop.counter0 }})"></span>
+        <span class="dot" onclick="currentSlide({{ forloop.counter }})"></span>
+        
       {% endfor %}
     </div>
 

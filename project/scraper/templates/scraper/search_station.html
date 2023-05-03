@@ -1,0 +1,11 @@
+{% extends 'scraper/base.html' %}
+
+{% block title%} {{ station_name }}역 {% endblock %}
+
+{% block content %}
+    {% for station in stations %}
+        <h2><a href="{% url 'scraper:station-details' line=station.slug station=station.station %}"> {{station.line }}</a></h2>
+        <h2>{{ station.station }}역에 오신걸 환영합니다 :)</h2>
+
+    {% endfor %}
+{% endblock %}

@@ -9,7 +9,7 @@
 <ul>
     {% for station in obj %}
     <a href="{% url 'scraper:station-details' line=station.slug station=station.station %}">
-        <h2>{{ station.station }} </h2>
+        <h2> {{ station.station }} </h2>
     </a>
     {% endfor %}
 </ul>
