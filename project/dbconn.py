@@ -7,13 +7,12 @@ import pandas as pd
 def insert_subway_traffic(daily,hourly,stations):
     # slug 컬럼 생성 후 line 값 가져와서 보여주기
     
-    # conn = sqlite3.connect('./db.sqlite3')
     
     
     with sqlite3.connect('./db.sqlite3') as conn:
-        daily.to_sql('TB_TRAFFIC_DAILY', conn, if_exists='replace',index =True, index_label = 'id')
-        hourly.to_sql('TB_TRAFFIC_HOURLY', conn, if_exists='replace',index =True, index_label = 'id')
-        stations.to_sql('TB_STATIONS', conn, if_exists = 'replace', index = True, index_label = 'id')
+        daily.to_sql('TB_TRAFFIC_DAILY', conn, if_exists='replace', dtype={'id': 'INTEGER PRIMARY KEY AUTOINCREMENT'})
+        hourly.to_sql('TB_TRAFFIC_HOURLY', conn, if_exists='replace', dtype={'id': 'INTEGER PRIMARY KEY AUTOINCREMENT'})
+        stations.to_sql('TB_STATIONS', conn, if_exists = 'replace', dtype={'id': 'INTEGER PRIMARY KEY AUTOINCREMENT'})
         
 
     
@@ -23,13 +22,12 @@ def insert_subway_traffic(daily,hourly,stations):
 
 def main():
     # 읽어오고 전처리
-    daily = pd.read_csv('subway_traffic_daily.csv').drop(columns='Unnamed: 0')
-    hourly = pd.read_csv('subway_traffic_month_hourly.csv').drop(columns='Unnamed: 0')
+    daily = pd.read_csv('subway_traffic_daily.csv').drop(columns='Unnamed: 0').reset_index().rename(columns={"index": "id"})
+    hourly = pd.read_csv('subway_traffic_month_hourly.csv').drop(columns='Unnamed: 0').reset_index().rename(columns={"index": "id"})
+    stations = daily[['station','line']].drop_duplicates(subset=['station','line']).reset_index().rename(columns={"index": "id"})
     
     daily['date'] = pd.to_datetime(daily['date'])
     hourly['month'] = pd.to_datetime(hourly['month'])
-    
-    stations = daily[['station','line']].drop_duplicates(subset=['station','line']).reset_index(drop=True)
     stations['slug'] = stations['line']
     
     
