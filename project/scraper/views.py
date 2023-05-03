@@ -14,6 +14,9 @@ class IndexView(ListView):
     def get_queryset(self):
         return Stations.objects.all()
 
+
+
+
 # 추후에 CBV로 변경
 def line_details(request, slug):
     obj = Stations.objects.filter(line=slug)

@@ -60,3 +60,6 @@
     padding-right: 0;
     margin-left: auto;;
   }
+  .dropdown:hover .dropdown-menu {
+    display: block;
+  }

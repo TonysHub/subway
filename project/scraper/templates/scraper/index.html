@@ -34,3 +34,12 @@
     </div>
 
 {% endblock %}
+
+
+{% block line_list %}
+  {% for stations in all_stations|dictsort:'line' %}
+      {% ifchanged %}
+        <a class="dropdown-item" href="./{{stations.line}}">{{stations.line}}</a>
+      {% endifchanged %}   
+  {% endfor %}
+{% endblock%}
