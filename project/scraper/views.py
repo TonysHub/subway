@@ -14,10 +14,7 @@ class IndexView(ListView):
     def get_queryset(self):
         return Stations.objects.all()
 
-class DetailView(generic.DetailView):
-    model = Stations
-    context_object_name = 'station'
-    template_name = 'scraper/details.html'  
-    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
-        context = super().get_context_data(**kwargs)
-        return context
+def line_details(request, slug):
+    obj = Stations.objects.filter(line=slug)
+    line_name = slug
+    return render(request, 'scraper/line_details.html', {'obj': obj, 'line_name': line_name})
