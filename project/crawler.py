@@ -1,12 +1,12 @@
 import datetime
 import time
 import pandas as pd
-import numpy as np
 
 from dateutil.relativedelta import relativedelta
 from selenium import webdriver
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support.ui import Select
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support.select import Select
+
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
@@ -30,7 +30,7 @@ def subway_traffic_daily(line_name):
     current_date = datetime.datetime.now().date()
     deadline = current_date - datetime.timedelta(days=15)
 
-    df_std = pd.DataFrame() # subway_traffic_daily -> std
+    df_subway_traffic_daily = pd.DataFrame() # subway_traffic_daily -> std
     mouse_tracker = driver.find_element(By.XPATH, '//*[@id="AXGridTarget_AX_scrollYHandle"]')
 
 
@@ -42,7 +42,7 @@ def subway_traffic_daily(line_name):
         time.sleep(0.2)
 
         upload_date = datetime.datetime.strptime(str(df[5].iloc[-1]).replace('.0',''), '%Y%m%d').date() # df[5] -> upload_date
-        df_std = pd.concat([df_std, df])
+        df_subway_traffic_daily = pd.concat([df_subway_traffic_daily, df])
         time.sleep(0.1)
 
         # print(current_date, upload_date, deadline) # check date
@@ -56,24 +56,24 @@ def subway_traffic_daily(line_name):
 
 
     # 데이터 전처리
-    df_std.columns = columns_list
-    df_std.drop('upload_date', axis=1, inplace=True)
-    df_std.drop_duplicates(keep='first', inplace=True)
-    df_std.reset_index(drop=True, inplace=True)
+    df_subway_traffic_daily.columns = columns_list
+    df_subway_traffic_daily.drop('upload_date', axis=1, inplace=True)
+    df_subway_traffic_daily.drop_duplicates(keep='first', inplace=True)
+    df_subway_traffic_daily.reset_index(drop=True, inplace=True)
     time.sleep(0.1)
 
-    df_std[['line', 'station']] = df_std[['line', 'station']].astype('str')
-    df_std[['people_in', 'people_out']] = df_std[["people_in", "people_out"]].astype('int64')
-    df_std['date'] = pd.to_datetime(df_std['date'], format='%Y%m%d', errors='raise')
+    df_subway_traffic_daily[['line', 'station']] = df_subway_traffic_daily[['line', 'station']].astype('str')
+    df_subway_traffic_daily[['people_in', 'people_out']] = df_subway_traffic_daily[["people_in", "people_out"]].astype('int64')
+    df_subway_traffic_daily['date'] = pd.to_datetime(df_subway_traffic_daily['date'], format='%Y%m%d', errors='raise')
 
     # 14일 이전을 넘어가는 데이터 삭제
-    deadline = df_std['date'][0].date() - datetime.timedelta(days=14)
-    df_std = df_std[df_std['date'].between(str(deadline), str(df_std['date'][0].date()))]
+    deadline = df_subway_traffic_daily['date'][0].date() - datetime.timedelta(days=14)
+    df_subway_traffic_daily = df_subway_traffic_daily[df_subway_traffic_daily['date'].between(str(deadline), str(df_subway_traffic_daily['date'][0].date()))]
 
 
-    # df_std.to_csv('subway_traffic_daily.csv', mode='w')
+    # df_subway_traffic_daily.to_csv('subway_traffic_daily.csv', mode='w')
 
-    return df_std
+    return df_subway_traffic_daily
 
 
 
@@ -90,16 +90,23 @@ def subway_traffic_month_hourly(line_name):
     columns_list = pd.read_html(html)[4]
     columns_list = columns_list.squeeze().tolist()
     columns_list = list(map(lambda x: x.replace('T', ''), columns_list))
+    for i, column in enumerate(columns_list):
+        if '승차' in column:
+            columns_list[i] = 'in_'+column[:2]+column[4:6]
+        elif '하차' in column:
+            columns_list[i] = 'out_'+column[:2]+column[4:6]
+
 
     # rows
     current_date = datetime.datetime.now().date()
+    
     deadline = datetime.datetime
     if current_date.day > 3:
         deadline = current_date - relativedelta(months=4)
     else:
         deadline = current_date - relativedelta(months=5)
 
-    df_stmh = pd.DataFrame() # subway_traffic_month_hourly -> stmh
+    df_subway_traffic_month_hourly = pd.DataFrame() # subway_traffic_month_hourly -> stmh
     mouse_tracker = driver.find_element(By.XPATH, '//*[@id="AXGridTarget_AX_scrollYHandle"]')   
 
     while True:
@@ -112,35 +119,32 @@ def subway_traffic_month_hourly(line_name):
         time.sleep(0.2)
 
         month_date = datetime.datetime.strptime(str(df[0].iloc[-1]).replace('.0',''), '%Y%m').date() # df[0] -> month
-        df_stmh = pd.concat([df_stmh, df])
+        df_subway_traffic_month_hourly = pd.concat([df_subway_traffic_month_hourly, df])
         time.sleep(0.1)
         
-        print(current_date , month_date , deadline)
+        # print(current_date , month_date , deadline)
         if current_date > month_date > deadline:
             ActionChains(driver).move_to_element_with_offset(mouse_tracker, 0, 0).click_and_hold().move_by_offset(0,6).perform()
             driver.implicitly_wait(0.5)
         else:
             break
-
+    
 
     # 데이터 전처리
-    df_stmh.columns = columns_list
-    df_stmh.drop_duplicates(keep='first', inplace=True)
-    df_stmh.reset_index(drop=True, inplace=True)
+    df_subway_traffic_month_hourly.columns = columns_list
+    df_subway_traffic_month_hourly.drop_duplicates(keep='first', inplace=True)
+    df_subway_traffic_month_hourly.reset_index(drop=True, inplace=True)
 
-    df_stmh.drop('작업일자', axis=1, inplace=True)
-    df_stmh.rename(columns={'사용월':'month', '호선명':'line', '지하철역':'station'}, inplace=True)
-    df_stmh['month']=pd.to_datetime(df_stmh["month"], format='%Y%m').dt.strftime("%Y-%m")
-
-    df_stmh = df_stmh.apply(lambda x: x.astype('int64') if x.dtype == 'float64' else x)
+    df_subway_traffic_month_hourly.drop('작업일자', axis=1, inplace=True)
+    df_subway_traffic_month_hourly.rename(columns={'사용월':'month', '호선명':'line', '지하철역':'station'}, inplace=True)
+    df_subway_traffic_month_hourly['month']=pd.to_datetime(df_subway_traffic_month_hourly["month"], format='%Y%m').dt.strftime("%Y-%m")
+    df_subway_traffic_month_hourly = df_subway_traffic_month_hourly.apply(lambda x: x.astype('int64') if x.dtype == 'float64' else x)
 
     # 3개월 이전을 넘어가는 데이터 삭제
     deadline += relativedelta(months=1)
-    df_stmh = df_stmh[df_stmh['month'].between(str(deadline)[:7], df_stmh["month"][0])]
+    df_subway_traffic_month_hourly = df_subway_traffic_month_hourly[df_subway_traffic_month_hourly['month'].between(str(deadline)[:7], df_subway_traffic_month_hourly["month"][0])]
 
-    # df_stmh.to_csv('subway_traffic_month_hourly.csv', mode='w')
-
-    return df_stmh
+    return df_subway_traffic_month_hourly
 
 
 def get_driver(url):
@@ -200,25 +204,24 @@ def main():
     lines = ['1호선', '2호선', '3호선',' 4호선', '7호선']
     now = datetime.datetime.now().day
 
-    df_std = pd.DataFrame()
-    df_stmh = pd.DataFrame()
+    df_subway_traffic_daily = pd.DataFrame()
+    df_subway_traffic_month_hourly = pd.DataFrame()
     
     for line in lines:
         df1 = subway_traffic_daily(line)
-        df_std = pd.concat([df_std, df1])
+        df_subway_traffic_daily = pd.concat([df_subway_traffic_daily, df1])
         time.sleep(0.2)
 
         # if now == 4: # 매월 4일마다 갱신
         df2 =subway_traffic_month_hourly(line)
-        df_stmh = pd.concat([df_stmh, df2])
+        df_subway_traffic_month_hourly = pd.concat([df_subway_traffic_month_hourly, df2])
         time.sleep(0.2)
 
 
+    df_subway_traffic_daily.to_csv('subway_traffic_daily.csv', mode='w', encoding='utf-8')
+    df_subway_traffic_month_hourly.to_csv('subway_traffic_month_hourly.csv', mode='w', encoding='utf-8')
 
-    df_std.to_csv('subway_traffic_daily.csv', mode='w')
-    df_stmh.to_csv('subway_traffic_month_hourly.csv', mode='w')
-
-    # return df_std, df_stmh
+    # return df_subway_traffic_daily, df_subway_traffic_month_hourly
 
     pass
 
