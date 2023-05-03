@@ -57,5 +57,6 @@
   .d-flex{
     display: flex;
     margin: 0;
-    padding-left: 0;
+    padding-right: 0;
+    margin-left: auto;;
   }

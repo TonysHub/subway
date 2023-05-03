@@ -25,11 +25,11 @@
               <a class="nav-item nav-link" href="{% url 'scraper:index' %}" aria-hidden="true">&nbsp; Home</a>
               <a class="nav-item nav-link" href="#" aria-hidden="true">&nbsp; 호선</a>
           </div>
-          <form class="d-flex" method=POST action="{% url 'scraper:search-station' %}">
-              {% csrf_token %}
-              <input class="form-control me-2" type="search" placeholder="역 검색" aria-label="Search" name="searched">
-              <button class="btn btn-outline-secondary" type="submit">Search</button>
-          </form>
+    <form class="d-flex" method=POST action="{% url 'scraper:search-station' %}">
+        {% csrf_token %}
+        <input class="form-control me-2" type="search" placeholder="역 검색" aria-label="Search" name="searched">
+        <button class="btn btn-outline-secondary" type="submit">Search</button>
+    </form>
       </div>
       </div>
     </nav>
