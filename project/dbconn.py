@@ -33,7 +33,12 @@ def main():
     
     df_subway_traffic_daily = pd.read_csv('subway_traffic_daily.csv')
     df_subway_traffic_month_hourly = pd.read_csv('subway_traffic_month_hourly.csv')
-    df_stations_line = df_subway_traffic_daily[['station','line']].drop_duplicates()
+    
+    df_subway_traffic_month_hourly.rename(columns = {'Unnamed: 0' : 'id'}, inplace = True )
+    df_subway_traffic_daily.rename(columns = {'Unnamed: 0' : 'id'}, inplace = True )
+    
+    
+    df_stations_line = df_subway_traffic_daily[['id','station','line']].drop_duplicates()
     df_stations_line['slug'] = df_stations_line['line']
     
     
