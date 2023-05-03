@@ -2,8 +2,8 @@
 {% load static %}
 
 {% block content %}
-<link rel="stylesheet" href="{% static 'css/index.css' %}">
-<script src="{% static 'js/index.js' %}"></script>
+<link rel="stylesheet" href="{% static 'scraper/index.css' %}">
+<script src="{% static 'scraper/index.js' %}"></script>
 
 <!DOCTYPE html>
 <html>
@@ -18,8 +18,8 @@
       {% for station in all_stations %}
       <div class="mySlides fade">
         <div class="numbertext">{{ forloop.counter }} / {{ all_stations|length }}</div>
-        <h2>{{ station.line }}</h2>
-        <a href="{% url 'scraper:details' station.pk %}">
+        <h2>{{ station.slug }}</h2>
+        <a href="{% url 'scraper:line-details' station.slug %}">
             <img src="https://blog.kakaocdn.net/dn/bqPYzR/btraWSj02cT/HnIasx6vc09IszobY6Fwe0/img.jpg" style="width:100%">
         </a>
         <div class="text">{{ station.station }}</div>
