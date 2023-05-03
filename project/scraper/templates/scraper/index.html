@@ -1,17 +1,10 @@
 {% extends 'scraper/base.html' %}
 {% load static %}
-
+{% block title %}서울시 지하철 정보{% endblock %}
 {% block content %}
 <link rel="stylesheet" href="{% static 'scraper/index.css' %}">
 <script src="{% static 'scraper/index.js' %}"></script>
 
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title></title>
-  </head>
-  <body>
     <div class="slideshow-container">
 
       <!-- Full-width images with number and caption text -->
@@ -35,9 +28,8 @@
     <!-- The dots/circles -->
     <div style="text-align:center">
       {% for station in all_stations %}
-      <span class="dot" onclick="currentSlide({{ forloop.counter0 }})"></span>
+        <span class="dot" onclick="currentSlide({{ forloop.counter0 }})"></span>
       {% endfor %}
     </div>
-  </body>
-</html>
+
 {% endblock %}

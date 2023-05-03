@@ -13,7 +13,7 @@
     <nav class="navbar">
       <div class="navbar__logo">
         <i class="fas fa-blog"></i>
-        <a href="">SUBWAY</a>
+        <a href="{% url 'scraper:index' %}">SUBWAY</a>
       </div>
       <ul class="navbar__menu">
         <li><a href="#">Home</a></li>
@@ -30,6 +30,8 @@
         <li><i class="fab fa-slack"></i></li>
       </ul>
     </nav>
-    {% block content %}{% endblock %}
+    {% block content %}
+    {% endblock %}
+
   </body>
 </html>
