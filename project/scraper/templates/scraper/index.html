@@ -12,7 +12,7 @@
       <div class="mySlides">
         <h2>{{ line.line }}</h2>
         <a href="{% url 'scraper:line-details' line.line %}">
-            <img src="https://blog.kakaocdn.net/dn/bqPYzR/btraWSj02cT/HnIasx6vc09IszobY6Fwe0/img.jpg" style="width:100%">
+            <img src="{% get_static_prefix %}scraper/images/{{ line.line }}.jpg" style="width:100%">
         </a>
         <div class="text"><a class="nav-link" href="{% url 'scraper:line-details' line.line %}">{{ line.line }} 자세히 보기</a></div>
       </div>
