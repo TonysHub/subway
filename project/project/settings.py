@@ -68,6 +68,9 @@ TEMPLATES = [
     },
 ]
 
+TEMPLATE_LOADERS = ( # added to read templatetags
+    'django.template.loaders.app_directories.load_template_source',
+)
 
 WSGI_APPLICATION = 'project.wsgi.application'
 
@@ -107,7 +110,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Seoul'
 
 USE_I18N = True
 
@@ -118,11 +121,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
-
 # add
 STATICFILES_DIRS = [
-    BASE_DIR/'static',
-    #os.path.join(BASE_DIR, 'static')
+    BASE_DIR /'scraper/static/',
+    # os.path.join(BASE_DIR, 'static')
 ]
 
 # Default primary key field type

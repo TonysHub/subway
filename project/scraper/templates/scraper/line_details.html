@@ -1,0 +1,16 @@
+{% extends 'scraper/base.html' %}
+{% load static %}
+
+{% block title %}{{ line_name }}{% endblock %}
+{% block content %}
+
+<h1> {{ line_name }} </h1>
+
+<ul>
+    {% for station in obj %}
+    <a class="nav-link" href="{% url 'scraper:station-details' line=station.slug station=station.station %}">
+        <h2> {{ station.station }} </h2>
+    </a>
+    {% endfor %}
+</ul>
+{% endblock %}

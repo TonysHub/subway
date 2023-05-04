@@ -1,0 +1,13 @@
+{% extends 'scraper/base.html' %}
+
+{% load static %}
+
+{% block title %} 
+    {{ station.station }}역 정보입니다.
+{% endblock %}
+
+{% block content %}
+    <h1>{{ station.line }} </h1>
+    <h2>{{ station.station }}</h2>
+    <h3>{{ station.slug }}</h3>
+{% endblock %}
