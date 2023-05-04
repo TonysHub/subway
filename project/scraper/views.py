@@ -1,4 +1,3 @@
-from typing import Any, Dict
 from django.shortcuts import render
 from django.views.generic import ListView
 from django.views import generic
@@ -8,10 +7,7 @@ from .models import *
 
 # for plotly
 import plotly.express as px
-import sqlite3
 import pandas as pd
-from pandas import Series, DataFrame
-
 
 class IndexView(ListView):
     template_name = 'scraper/index.html'
