@@ -68,6 +68,9 @@ TEMPLATES = [
     },
 ]
 
+TEMPLATE_LOADERS = ( # added to read templatetags
+    'django.template.loaders.app_directories.load_template_source',
+)
 
 WSGI_APPLICATION = 'project.wsgi.application'
 

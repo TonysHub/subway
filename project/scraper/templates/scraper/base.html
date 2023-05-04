@@ -1,4 +1,6 @@
 {% load static %}
+{% load all_lines %}
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -29,8 +31,7 @@
                   호선명
                 </a>
                 <ul class="dropdown-menu dropdown-menu-dark">
-                  {% block line_list %}
-                  {% endblock %}
+                    {% find_all_lines %}
                 </ul>
               </li>
           </div>
