@@ -27,7 +27,7 @@
     <!-- The dots/circles -->
     <div style="text-align:center">
       {% for line in all_lines %}
-        <span class="dot" onclick="currentSlide()"></span>
+        <span class="dot" onclick="currentSlide({{forloop.counter0}})"></span>
         
       {% endfor %}
     </div>
