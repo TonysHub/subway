@@ -10,9 +10,12 @@ from .models import Stations
 class IndexView(ListView):
     template_name = 'scraper/index.html'
     context_object_name = 'all_stations'
-
+    
     def get_queryset(self):
         return Stations.objects.all()
+
+
+
 
 # 추후에 CBV로 변경
 def line_details(request, slug):
