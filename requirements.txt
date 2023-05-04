@@ -115,3 +115,4 @@ widgetsnbextension==4.0.5
 wsproto==1.2.0
 lxml==4.9.2
 webdriver-manager==3.8.6
+plotly==5.14.1
