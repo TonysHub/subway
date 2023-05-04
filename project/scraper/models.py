@@ -18,8 +18,8 @@ abstract를 통하여 상속
 """
 class Common(models.Model):
     id = models.AutoField(primary_key=True)
-    station = models.CharField(max_length = 60, null=False, verbose_name="호선명")
-    line = models.CharField(max_length = 20,null=False, verbose_name="키워드")
+    station = models.CharField(max_length = 60, null=False, verbose_name="역 명")
+    line = models.CharField(max_length = 20,null=False, verbose_name="호선명")
     
     
     class Meta:
