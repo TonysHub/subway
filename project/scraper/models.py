@@ -6,9 +6,9 @@ from django.utils.text import slugify
 
 """
 모델은 총 3개
-Stations       컬럼 수 : 3개     ( sqlite table name = TB_SATIONS )
-DailyTraffic   컬럼 수 : 5개     ( sqlite table name = TB_TRAFFIC_DAILY )
-HourlyTraffic  컬럼 수 : 51개    ( sqlite table name = TB_TRAFFIC_HOURLY )
+Stations       컬럼 수 : 4개     ( sqlite table name = TB_SATIONS )
+DailyTraffic   컬럼 수 : 6개     ( sqlite table name = TB_TRAFFIC_DAILY )
+HourlyTraffic  컬럼 수 : 52개    ( sqlite table name = TB_TRAFFIC_HOURLY )
 """
 
 
@@ -18,8 +18,10 @@ abstract를 통하여 상속
 """
 class Common(models.Model):
     id = models.AutoField(primary_key=True)
-    station = models.CharField(max_length = 60, null=False, verbose_name="호선명")
-    line = models.CharField(max_length = 20,null=False, verbose_name="키워드")
+
+    station = models.CharField(max_length = 60, null=False, verbose_name="역명")
+    line = models.CharField(max_length = 20,null=False, verbose_name="호선명")
+
     
     
     class Meta:
