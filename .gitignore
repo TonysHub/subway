@@ -78,3 +78,6 @@ venv/
 subway_traffic_daily.csv
 subway_traffic_month_hourly.csv
 chromedriver.exe
+
+# Database
+migrations/

@@ -8,14 +8,13 @@
     <div class="slideshow-container">
 
       <!-- Full-width images with number and caption text -->
-      {% for station in all_stations %}
+      {% for line in all_lines %}
       <div class="mySlides">
-        <div class="numbertext">{{ forloop.counter }} / {{ all_stations|length }}</div>
-        <h2>{{ station.slug }}</h2>
-        <a href="{% url 'scraper:line-details' station.slug %}">
+        <h2>{{ line.line }}</h2>
+        <a href="{% url 'scraper:line-details' line.line %}">
             <img src="https://blog.kakaocdn.net/dn/bqPYzR/btraWSj02cT/HnIasx6vc09IszobY6Fwe0/img.jpg" style="width:100%">
         </a>
-        <div class="text">{{ station.station }}</div>
+        <div class="text"><a class="nav-link" href="{% url 'scraper:line-details' line.line %}">{{ line.line }} 자세히 보기</a></div>
       </div>
       {% endfor %}
 
@@ -27,8 +26,8 @@
 
     <!-- The dots/circles -->
     <div style="text-align:center">
-      {% for station in all_stations %}
-        <span class="dot" onclick="currentSlide({{ forloop.counter }})"></span>
+      {% for line in all_lines %}
+        <span class="dot" onclick="currentSlide()"></span>
         
       {% endfor %}
     </div>
