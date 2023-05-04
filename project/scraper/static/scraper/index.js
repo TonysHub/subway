@@ -5,12 +5,7 @@ window.onload=function(){
   showSlides(slideIndex);
 
   // Auto Move Slide
-  var sec = 3000;
-  setInterval(function(){
-    slideIndex++;
-    showSlides(slideIndex);
 
-  }, sec);
 }
 
 
