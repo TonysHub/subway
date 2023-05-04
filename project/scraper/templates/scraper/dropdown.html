@@ -1,3 +1,3 @@
 {% for line in all_lines %}
-    <li><a href="{% url 'scraper:line-details' line.line %}">{{ line.line }}</a></li>
+    <li><a class="nav-link" href="{% url 'scraper:line-details' line.line %}">{{ line.line }}</a></li>
 {% endfor %}

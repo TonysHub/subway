@@ -3,9 +3,8 @@
 {% block title%} {{ station_name }}역 {% endblock %}
 
 {% block content %}
+<h3>찾으시는 호선을 선택하세요.</h3>
     {% for station in stations %}
-        <h2><a href="{% url 'scraper:station-details' line=station.slug station=station.station %}"> {{station.line }}</a></h2>
-        <h2>{{ station.station }}역에 오신걸 환영합니다 :)</h2>
-
+        <h4><a class="nav-link" href="{% url 'scraper:station-details' line=station.slug station=station.station %}"> {{station.line }}</a></h2>
     {% endfor %}
 {% endblock %}
