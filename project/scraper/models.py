@@ -36,8 +36,7 @@ class Stations(Common):
     
     class Meta:
         db_table = 'TB_STATIONS'
-    def __str__(self):
-        return f'{self.line} {self.station}'
+
     
     def save(self, *args, **kwargs):
         self.slug = self.slug or slugify(self.line)
@@ -53,8 +52,7 @@ class DailyTraffic(Common) :
         db_table = "TB_TRAFFIC_DAILY"
         verbose_name = "일 별 승하차 인원"
         
-    def __str__(self):
-        return f'{self.date} {self.line} {self.station}'
+    
     
 
 
@@ -116,5 +114,4 @@ class HourlyTraffic(Common):
         verbose_name = "시간 별 승하차 인원(월단위)"
         
         
-    def __str__(self):
-        return f'{self.month} {self.line} {self.station}'
+    
