@@ -32,9 +32,12 @@ def station_details(request, line, station):
     obj_DailyTraffic = DailyTraffic.objects.filter(station=obj.station, line=obj.line)
     
     obj_HourlyTraffic = HourlyTraffic.objects.filter(station=obj.station, line=obj.line) 
-    # df 수정
+
     df_subway_traffic_daily = db_to_df(obj_DailyTraffic)
     df_subway_traffic_month_hourly = db_to_df(obj_HourlyTraffic)
+
+    # dailytraffic = dailytraffic_to_plotly(df_subway_traffic_daily)
+    # hourlytraffic = hourlytraffic_to_plotly(df_subway_traffic_month_hourly)
 
     return render(request, 'scraper/station_details.html', {'station': obj})
 
@@ -53,4 +56,13 @@ def db_to_df(obj):
         df['date'] = df['date'].dt.date
     else:
         df['month'] = df['month'].dt.date
+    return df
+
+def hourlytraffic_to_plotly(df):
+    return df
+
+
+
+def dailytraffic_to_plotly(df):
+    
     return df
