@@ -38,13 +38,14 @@ def subway_traffic_daily(line_name):
     while True:
         html = driver.page_source
         driver.implicitly_wait(5)
+        time.sleep(0.1)
 
         df = pd.read_html(html, encoding='utf-8')[5].iloc[1:-1,:-1]
-        time.sleep(0.2)
+        time.sleep(0.05)
 
         upload_date = datetime.datetime.strptime(str(df[5].iloc[-1]).replace('.0',''), '%Y%m%d').date() # df[5] -> upload_date
         df_subway_traffic_daily = pd.concat([df_subway_traffic_daily, df])
-        time.sleep(0.1)
+        time.sleep(0.05)
 
         # print(current_date, upload_date, deadline) # check date
         if current_date >= upload_date > deadline:
@@ -85,7 +86,7 @@ def subway_traffic_month_hourly(line_name):
     # data sheet 준비
     move_to_data(driver, line_name)
 
-
+    
     # columns
     html = driver.page_source
     columns_list = pd.read_html(html)[4]
@@ -109,10 +110,12 @@ def subway_traffic_month_hourly(line_name):
 
     df_subway_traffic_month_hourly = pd.DataFrame() # subway_traffic_month_hourly -> stmh
     mouse_tracker = driver.find_element(By.XPATH, '//*[@id="AXGridTarget_AX_scrollYHandle"]')   
-
+    driver.implicitly_wait(3)
+    time.sleep(2)
+    
     while True:
         html = driver.page_source
-        driver.implicitly_wait(5)
+        driver.implicitly_wait(10)
         time.sleep(0.1)
 
 
@@ -141,6 +144,7 @@ def subway_traffic_month_hourly(line_name):
     df_subway_traffic_month_hourly['month']=pd.to_datetime(df_subway_traffic_month_hourly["month"], format='%Y%m').dt.strftime("%Y-%m")
     df_subway_traffic_month_hourly = df_subway_traffic_month_hourly.apply(lambda x: x.astype('int64') if x.dtype == 'float64' else x)
 
+    
     # 3개월 이전을 넘어가는 데이터 삭제
     deadline += relativedelta(months=1)
     df_subway_traffic_month_hourly = df_subway_traffic_month_hourly[df_subway_traffic_month_hourly['month'].between(str(deadline)[:7], df_subway_traffic_month_hourly["month"][0])]
@@ -175,26 +179,27 @@ def move_to_data(driver, line_name):
     dropdown.select_by_value("LINE_NUM")
     driver.implicitly_wait(5)
 
-    time.sleep(0.2)
+    time.sleep(0.05)
 
 
     # 검색명 input tag 입력
     driver.find_element(By.XPATH, '//*[@id="txtFilter"]').send_keys(line_name)
     driver.implicitly_wait(5)
-    time.sleep(0.2)
+    time.sleep(0.05)
 
     # 조회 버튼 클릭
     driver.find_element(By.XPATH, '//*[@id="frmSheet"]/div[3]/button[3]').click()
     driver.implicitly_wait(10)
-    time.sleep(1)
+    time.sleep(1.5)
 
     # 1호선의 경우 '공항철도 1호선' 이 포함되는 것에 대한 예외 if
     if line_name=='1호선':
         # column 클릭마다 정렬 기준 변경 process, recent -> DESC -> ACS 
         line_sort = driver.find_element(By.XPATH, '//*[@id="AXGridTarget_AX_colHead_AX_0_AX_1"]')
         ActionChains(driver).click(line_sort).perform()
+        driver.implicitly_wait(5)
         ActionChains(driver).click(line_sort).perform()
-        driver.implicitly_wait(3)
+        driver.implicitly_wait(5)
         time.sleep(0.2)
 
     return driver
