@@ -124,4 +124,19 @@ Ex.
 git commit -m "fix: fix bug in datascrapping"
 ```
 
+# Database Setup
+
+1. migrations 폴더에 있는 __init__.py 제외 모든 파일 삭제
+2. db.sqlite3 삭제
+-> 데이터베이스가 기존것과 중복으로 오류가 날 수 있기 때문에 삭제 후 사용하시는 것을 추천드립니다!
+`$ python manage.py makemigrations`
+`$ python manage.py migrate`
+`$ python dbconn.py`
+
+## 데이터베이스 확인하기
+
+`$ python manage.py dbshell`
+`>>> .table`
+sql 사용하여 각 테이블에 들어있는 값 확인하기
+
 
