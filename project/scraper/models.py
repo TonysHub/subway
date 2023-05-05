@@ -34,10 +34,6 @@ class Stations(Common):
     slug = models.SlugField()
     
     class Meta:
-        db_table = 'TB_STATIONS'
-        
-
-    class Meta:
         db_table = "TB_STATIONS"
 
     def save(self, *args, **kwargs):
