@@ -1,3 +1,17 @@
+# serializer feed in process
+1. 데이터 베이스 초기화하기
+- migrations 폴더 내 ```__init__.py``` 제외하고 모두 제거
+- ```db.splite3``` 제거
+- ```pyhton manage.py makemigrations```
+- ```python manage.py migrate```
+- ```python daily_process.py```
+
+수정작업해야할 것
+- 값 중복을 핉터링하기위해 serializer.py에서 ```UniqueTogetherValidator``` 옵션을 통해 중복값 들어가지 않도록 설정해놓은 상태, 하지만 ```daily_process.py``` 실행에서 중복값 발생시 어떻게 처리할지 결정해야함
+- 현재 : 중복 발생 or is_valid 시  count += , 최종 save() 끝날 시  count 출력하여 not is_valid() 개수 출력
+
+
+
 # Setting up Python version to 3.10.0
 
 Check if you have pyenv installed
