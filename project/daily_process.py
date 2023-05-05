@@ -1,3 +1,5 @@
+# 현재 파일 위치
+# subway/project/daily_process.py
 import os
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "project.settings")
 import django

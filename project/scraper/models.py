@@ -35,7 +35,7 @@ class Stations(Common):
 
     
     def save(self, *args, **kwargs):
-        self.slug = self.slug or slugify(self.line)
+        self.slug = self.line or slugify(self.line,allow_unicode=True)
         super().save(*args, **kwargs)
     
 # database name : TB_TRAFFIC_DAILY
