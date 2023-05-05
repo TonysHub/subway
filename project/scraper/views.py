@@ -27,7 +27,6 @@ def line_details(request, slug):
 
 
 def station_details(request, line, station):
-
     obj = get_object_or_404(Stations, station=station, line=line)
     
     obj_DailyTraffic = DailyTraffic.objects.filter(station=obj.station, line=obj.line)
@@ -39,7 +38,9 @@ def station_details(request, line, station):
     dailytraffic = dailytraffic_to_plotly(df_subway_traffic_daily, line, station)
     hourlytraffic = hourlytraffic_to_plotly(df_subway_traffic_month_hourly, line, station)
 
-    return render(request, 'scraper/station_details.html', {'station': obj, 'dailytraffic':dailytraffic, 'hourlytraffic': hourlytraffic})
+    return render(request, 'scraper/station_details.html', {'station': obj, 
+                                                            'dailytraffic':dailytraffic, 
+                                                            'hourlytraffic': hourlytraffic})
 
 
 def search_station(request):
@@ -61,11 +62,9 @@ def search_station(request):
 
 
 def hourlytraffic_to_plotly(df, line, station):
-    # 우리가 보고자 하는 Month, Station을 입력으로 받습니다.
+    # 우리가 보고자 하는 Month, 그리고 우리가 보고자 하는 Station을 입력으로 받습니다.
     target_station = station
     month_list = df['month'].unique()
-    
-    # 보여줄 달과 보여줄 역 선택
     colors = ['red', 'gray', 'steelblue']
 
     fig = go.Figure()
@@ -78,12 +77,10 @@ def hourlytraffic_to_plotly(df, line, station):
         answer = []
         hourlist = []
 
-        # in_, out_으로 시작하는 부분부터 
+        # in_, out_으로 시작하는 column 부분부터 
         for col in filtered_data.columns[3:]:
-            # in이면
             if col.startswith('in_'): 
                 in_data = filtered_data.iloc[0][col]
-            # out이면 / in-out 번갈아가면서 
             elif col.startswith('out_'):
                 out_data = filtered_data.iloc[0][col]
                 # 유동인구 고려할때 토탈로
@@ -109,7 +106,6 @@ def dailytraffic_to_plotly(df, line, station):
     information = {}
     target_station = station
     
-    # 데이터프레임을 활용한 딕셔너리 information 생성
     for _, row in df.iterrows():
         station = row['station']
         date = row['date']
@@ -118,23 +114,22 @@ def dailytraffic_to_plotly(df, line, station):
 
         if station not in information:
             information[station] = {}
-
         if date not in information[station]:
             information[station][date] = (people_in, people_out)
 
+    # 어느역을 기준으로 그래프를 그릴지를 나타내는 변수 target_station
+    # 강남역.value = {날짜1:(people_in,people_out), 날짜2: (people_in,people_out)}
     answer = []
-
-    # 보여줄 역 선택
     if target_station in information:
         date_data = information[target_station]
         dates = []
         total_passengers = []
 
-        # people in과 people out을 합쳐서 사용
         for date, (people_in, people_out) in date_data.items():
             dates.append(date)
             total_passengers.append(people_in + people_out)
 
+        # reversed되어 있던 축을 돌림
         sorted_dates, sorted_total_passengers = zip(*sorted(zip(dates, total_passengers)))
 
         sorted_dates = pd.to_datetime(sorted_dates)
