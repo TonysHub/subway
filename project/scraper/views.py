@@ -3,11 +3,13 @@ from django.views.generic import ListView
 from django.views import generic
 from django.shortcuts import get_object_or_404
 from .models import *
+import datetime
 
 # for plotly
 import plotly.express as px
 import plotly.graph_objs as go
 import pandas as pd
+from plotly.subplots import make_subplots
 
 
 class IndexView(ListView):
@@ -23,7 +25,13 @@ class IndexView(ListView):
 def line_details(request, slug):
     obj = Stations.objects.filter(line=slug)
     line_name = slug
-    return render(request, 'scraper/line_details.html', {'obj': obj, 'line_name': line_name})
+
+    obj_HourlyTraffic = HourlyTraffic.objects.filter(line=line_name)
+
+    df_subway_traffic_month_hourly = db_to_df(obj_HourlyTraffic)
+    line_details_plot = line_hourly_traffic_to_plot(df_subway_traffic_month_hourly, line_name)
+
+    return render(request, 'scraper/line_details.html', {'obj': obj, 'line_name': line_name, 'line_details_plot': line_details_plot})
 
 
 def station_details(request, line, station):
@@ -41,15 +49,6 @@ def station_details(request, line, station):
     return render(request, 'scraper/station_details.html', {'station': obj, 
                                                             'dailytraffic':dailytraffic, 
                                                             'hourlytraffic': hourlytraffic})
-
-
-def search_station(request):
-    if request.method == "POST":
-        query = request.POST["searched"]
-        stations = Stations.objects.filter(station=query)
-        return render(request, 'scraper/search_station.html', {'stations': stations, 'station_name': query})
-    else:
-        return render(request, 'scraper/search_station.html', {})
 
 
 def search_station(request):
@@ -145,6 +144,24 @@ def dailytraffic_to_plotly(df, line, station):
     line_chart = fig.to_html(full_html=False, include_plotlyjs=False)
     return line_chart
 
+def line_hourly_traffic_to_plot(df, line):
+    df['commute_work'] = df.loc[:, 'in_0405':'out_0910'].sum(axis=1)
+    df['commute_home'] = df.loc[:, 'in_1718':'out_2122'].sum(axis=1)
+    df['month'] = pd.to_datetime(df['month'])
+    today = datetime.datetime.now().strftime('%Y-%m')
+    one_month_ago = pd.to_datetime(today) - pd.DateOffset(months=1)
+    mask = df['month'] == one_month_ago
+    result = df.loc[mask]
+    df_filtered = result[(result['line'] == line)]
+    fig = make_subplots(rows=2, cols=1, subplot_titles=('출근시간', '퇴근시간'))
+
+    fig.add_trace(go.Bar(x=df_filtered['station'], y=df_filtered['commute_work'], name='출근시간'), row=1, col=1)
+    fig.add_trace(go.Bar(x=df_filtered['station'], y=df_filtered['commute_home'], name='퇴근시간'), row=2, col=1)
+
+    # Customize the layout
+    fig.update_layout(height=1000, width=800, title_text='출근시간과 퇴근시간', showlegend=False)
+    line_details_plot = fig.to_html(full_html=False, include_plotlyjs=False)
+    return line_details_plot
 
 # date, month 데이터 형식 수정
 def db_to_df(obj):
@@ -154,3 +171,4 @@ def db_to_df(obj):
     else:
         df['month'] = df['month'].dt.date
     return df
+
