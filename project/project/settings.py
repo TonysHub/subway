@@ -136,6 +136,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Crontab
 CRONJOBS = [
     # 분 시 일 월 (1~7)요일, 실행 함수 위치, 로그 저장 위치
-    ('*/1 * * * *', 'crontab.startTest', '>> ./crontab_startTest.log'),
-    # ('0 0 * * *', 'crontab.startCrawler', '>> ./crontab_startCrawler.log'),
+    # ('*/1 * * * *', 'crontab.startTest', '>> ./crontab_startTest.log'),
+    ('0 0 * * *', 'crontab.startCrawler', '>> ./crontab_startCrawler.log'),
 ]
