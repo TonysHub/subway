@@ -80,11 +80,7 @@ crontab_startCrawler.log
 # Crawler
 subway_traffic_daily.csv
 subway_traffic_month_hourly.csv
-<<<<<<< HEAD
-chromedriver.exe
-=======
 chromedriver.exe
 
 # Database
 migrations/
->>>>>>> 02a2cc5de2fdf9b286b1a7d893cb65f749afdc23
