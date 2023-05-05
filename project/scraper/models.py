@@ -2,7 +2,6 @@ from django.db import models
 from django.utils.text import slugify
 
 
-
 """
 모델은 총 3개
 Stations       컬럼 수 : 4개     ( sqlite table name = TB_SATIONS )
@@ -15,6 +14,8 @@ HourlyTraffic  컬럼 수 : 52개    ( sqlite table name = TB_TRAFFIC_HOURLY )
 아래 Stations, DailyTraffic, HourlyTraffic 에 station과 line이 사용되기 때문에 
 abstract를 통하여 상속
 """
+
+
 class Common(models.Model):
     id = models.AutoField(primary_key=True)
     station = models.CharField(max_length = 60, null=False, verbose_name="역명")
@@ -27,7 +28,6 @@ class Common(models.Model):
         ]
     
 
-    
 
 # database name : TB_STATIONS
 class Stations(Common):
@@ -37,17 +37,20 @@ class Stations(Common):
         db_table = 'TB_STATIONS'
         
 
-    
+    class Meta:
+        db_table = "TB_STATIONS"
+
     def save(self, *args, **kwargs):
         self.slug = self.line or slugify(self.line,allow_unicode=True)
         super().save(*args, **kwargs)
-    
+
+
 # database name : TB_TRAFFIC_DAILY
-class DailyTraffic(Common) :
+class DailyTraffic(Common):
     date = models.DateTimeField(null=False, verbose_name="측정일")
     people_in = models.IntegerField(null=False, verbose_name="승차인원")
     people_out = models.IntegerField(null=False, verbose_name="하차인원")
-    
+
     class Meta:
         db_table = "TB_TRAFFIC_DAILY"
         verbose_name = "일 별 승하차 인원"
@@ -60,7 +63,7 @@ class DailyTraffic(Common) :
 
 
 # database name : TB_TRAFFIC_HOURLY
-class HourlyTraffic(Common):    
+class HourlyTraffic(Common):
     month = models.DateTimeField(null=False, verbose_name="측정월")
     in_0405 = models.IntegerField(null=False, verbose_name="승차인원_04시-05시")
     out_0405 = models.IntegerField(null=False, verbose_name="하차인원_04시-05시")
@@ -110,10 +113,9 @@ class HourlyTraffic(Common):
     out_0203 = models.IntegerField(null=False, verbose_name="하차인원_02시-03시")
     in_0304 = models.IntegerField(null=False, verbose_name="승차인원_03시-04시")
     out_0304 = models.IntegerField(null=False, verbose_name="하차인원_03시-04시")
-    
-    
+
     class Meta:
-        db_table = 'TB_TRAFFIC_HOURLY'
+        db_table = "TB_TRAFFIC_HOURLY"
         verbose_name = "시간 별 승하차 인원(월단위)"
         unique_together = [
             ('station', 'line','month')
