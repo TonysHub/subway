@@ -61,7 +61,7 @@ nosetests.xml
 ENV/
 env.bak/
 env/
-venv
+venvImplement 
 venv.bak/
 venv/
 
@@ -73,6 +73,9 @@ venv/
 .DS_Store
 .idea
 .vscode
+
+# crontab
+crontab_startCrawler.log
 
 # Crawler
 subway_traffic_daily.csv

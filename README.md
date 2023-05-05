@@ -140,3 +140,18 @@ git commit -m "fix: fix bug in datascrapping"
 sql 사용하여 각 테이블에 들어있는 값 확인하기
 
 
+## crontab 사용법
+
+requirements.txt 실행
+
+작업 등록
+`$ python manage.py crontab add`
+
+작업 등록 확인
+`$ python manage.py crontab show`
+
+작업 삭제
+`$ python3 manage.py crontab remove`
+
+등록한 작업 id값으로 그냥 실행 (id 값은 show했을때 나오는 id값)
+`$ python3 manage.py crontab run <hash_id>`
