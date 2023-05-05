@@ -22,6 +22,9 @@ class Common(models.Model):
 
     class Meta:
         abstract = True
+        unique_together = [
+            ('station', 'line')
+        ]
     
 
     
@@ -32,6 +35,7 @@ class Stations(Common):
     
     class Meta:
         db_table = 'TB_STATIONS'
+        
 
     
     def save(self, *args, **kwargs):
@@ -47,6 +51,9 @@ class DailyTraffic(Common) :
     class Meta:
         db_table = "TB_TRAFFIC_DAILY"
         verbose_name = "일 별 승하차 인원"
+        unique_together = [
+            ('station', 'line','date')
+        ]
         
     
     
@@ -108,6 +115,9 @@ class HourlyTraffic(Common):
     class Meta:
         db_table = 'TB_TRAFFIC_HOURLY'
         verbose_name = "시간 별 승하차 인원(월단위)"
+        unique_together = [
+            ('station', 'line','month')
+        ]
         
         
     
