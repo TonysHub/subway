@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'django_crontab',
     'scraper.apps.ScraperConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -131,3 +132,10 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Crontab
+CRONJOBS = [
+    # 분 시 일 월 (1~7)요일, 실행 함수 위치, 로그 저장 위치
+    ('*/1 * * * *', 'crontab.startTest', '>> ./crontab_startTest.log'),
+    # ('0 0 * * *', 'crontab.startCrawler', '>> ./crontab_startCrawler.log'),
+]
