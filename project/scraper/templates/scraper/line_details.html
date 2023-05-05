@@ -3,14 +3,27 @@
 
 {% block title %}{{ line_name }}{% endblock %}
 {% block content %}
+{% block scripts %}
+    {{ block.super }}
+{% endblock %}
 
-<h1> {{ line_name }} </h1>
+<div class="modal-body row text-center">
+    <h1> {{ line_name }} </h1>
+    <div class="col-md-4 ">
+    <ul>
+        {% for station in obj %}
+        <a class="nav-link" href="{% url 'scraper:station-details' line=station.slug station=station.station %}">
+            <h2> {{ station.station }} </h2>
+        </a>
+        {% endfor %}
+    </ul>
+    </div>
 
-<ul>
-    {% for station in obj %}
-    <a class="nav-link" href="{% url 'scraper:station-details' line=station.slug station=station.station %}">
-        <h2> {{ station.station }} </h2>
-    </a>
-    {% endfor %}
-</ul>
+    <div class="col-md-8 text-center">
+        {% autoescape off %}
+        {{ line_details_plot }}
+        {% endautoescape %}
+    </div>
+</div>
+
 {% endblock %}
