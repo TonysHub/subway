@@ -1,3 +1,12 @@
+# serializer feed in process
+1. 데이터 베이스 초기화하기
+- migrations 폴더 내 ```__init__.py``` 제외하고 모두 제거
+- ```db.splite3``` 제거
+- ```pyhton manage.py makemigrations```
+- ```python manage.py migrate```
+- ```python daily_process.py```
+
+
 # Setting up Python version to 3.10.0
 
 Check if you have pyenv installed
