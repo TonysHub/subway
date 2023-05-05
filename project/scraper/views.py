@@ -81,7 +81,7 @@ def dailytraffic_to_plotly(df, line, station):
         if date not in information[station]:
             information[station][date] = (people_in, people_out)
 
-            #print(information.items())
+        print(information.items())
     
     def find_total_passenger(date_data):
         return sum(people_in + people_out for people_in, people_out in date_data.values())
@@ -109,12 +109,13 @@ def dailytraffic_to_plotly(df, line, station):
 
         sorted_dates = pd.to_datetime(sorted_dates)
         dates_with_day = sorted_dates.strftime('%m-%d<br>(%a)') # 월 - 일로 하되 요일은 밑으로 나오게함
-
+        
         trace = go.Scatter(x=dates_with_day, y=sorted_total_passengers, mode='lines+markers', name=target_station, marker=dict(color='red'))
         answer.append(trace)
-
+        print(answer)
     fig = go.Figure(data=answer)
     fig.update_layout(title=f'전체 승객수 in {target_station}역', xaxis_title='Date', yaxis_title='역내 유동인구 수')
     fig.update_xaxes(tickangle=0, tickvals=dates_with_day, tickfont=dict(size=10))
     line_chart = fig.to_html(full_html=False, include_plotlyjs=False)
+    print(fig)
     return line_chart
