@@ -121,8 +121,8 @@ def line_hourly_traffic_to_plot(df, line):
     df["commute_home"] = df.loc[:, "in_1718":"out_2122"].sum(axis=1)
     df["month"] = pd.to_datetime(df["month"])
     today = datetime.datetime.now().strftime("%Y-%m")
-    one_month_ago = pd.to_datetime(today) - pd.DateOffset(months=1)
-    mask = df["month"] == one_month_ago
+    two_month_ago = pd.to_datetime(today) - pd.DateOffset(months=2)
+    mask = df["month"] >= two_month_ago
     result = df.loc[mask]
     df_filtered = result[(result["line"] == line)]
     fig = make_subplots(rows=2, cols=1, subplot_titles=("출근시간", "퇴근시간"))
