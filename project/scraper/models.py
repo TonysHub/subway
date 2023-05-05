@@ -18,23 +18,30 @@ abstract를 통하여 상속
 
 class Common(models.Model):
     id = models.AutoField(primary_key=True)
-
-    station = models.CharField(max_length=60, null=False, verbose_name="역명")
-    line = models.CharField(max_length=20, null=False, verbose_name="호선명")
+    station = models.CharField(max_length = 60, null=False, verbose_name="역명")
+    line = models.CharField(max_length = 20,null=False, verbose_name="호선명")
 
     class Meta:
         abstract = True
+        unique_together = [
+            ('station', 'line')
+        ]
+    
 
 
 # database name : TB_STATIONS
 class Stations(Common):
     slug = models.SlugField()
+    
+    class Meta:
+        db_table = 'TB_STATIONS'
+        
 
     class Meta:
         db_table = "TB_STATIONS"
 
     def save(self, *args, **kwargs):
-        self.slug = self.slug or slugify(self.line)
+        self.slug = self.line or slugify(self.line,allow_unicode=True)
         super().save(*args, **kwargs)
 
 
@@ -47,6 +54,12 @@ class DailyTraffic(Common):
     class Meta:
         db_table = "TB_TRAFFIC_DAILY"
         verbose_name = "일 별 승하차 인원"
+        unique_together = [
+            ('station', 'line','date')
+        ]
+        
+    
+    
 
 
 # database name : TB_TRAFFIC_HOURLY
@@ -104,3 +117,9 @@ class HourlyTraffic(Common):
     class Meta:
         db_table = "TB_TRAFFIC_HOURLY"
         verbose_name = "시간 별 승하차 인원(월단위)"
+        unique_together = [
+            ('station', 'line','month')
+        ]
+        
+        
+    
