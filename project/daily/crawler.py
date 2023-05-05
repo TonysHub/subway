@@ -67,14 +67,14 @@ def subway_traffic_daily(line_name):
     df_subway_traffic_daily[['line', 'station']] = df_subway_traffic_daily[['line', 'station']].astype('str')
     df_subway_traffic_daily[['people_in', 'people_out']] = df_subway_traffic_daily[["people_in", "people_out"]].astype('int64')
     df_subway_traffic_daily['date'] = pd.to_datetime(df_subway_traffic_daily['date'], format='%Y%m%d', errors='raise')
-
+    
     # 14일 이전을 넘어가는 데이터 삭제
     deadline = df_subway_traffic_daily['date'][0].date() - datetime.timedelta(days=14)
     df_subway_traffic_daily = df_subway_traffic_daily[df_subway_traffic_daily['date'].between(str(deadline), str(df_subway_traffic_daily['date'][0].date()))]
 
 
     # df_subway_traffic_daily.to_csv('subway_traffic_daily.csv', mode='w')
-
+    df_subway_traffic_daily['date'] = pd.to_datetime(df_subway_traffic_daily['date']).dt.strftime('%Y-%m-%d %H:%M:%S')
     return df_subway_traffic_daily
 
 
@@ -238,7 +238,7 @@ def run_crawling():
         # subway_traffic_month_hourly(line).to_csv('subway_traffic_month_hourly.csv', mode='a', header=not os.path.exists(path_subway_traffic_month_hourly))
     
 
-    df_subway_traffic_daily['date'] = pd.to_datetime(df_subway_traffic_daily['date']).dt.strftime('%Y-%m-%d %H:%M:%S')
+    
     df_stations = df_subway_traffic_daily[['station','line']].drop_duplicates(subset=['station','line'])
     
     
