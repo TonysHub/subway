@@ -75,7 +75,7 @@ def run():
     
     """
     # run_crawling 주석 시 크롤링 진행하지 않고 데이터 적재만 진행
-    run_crawling()
+    # run_crawling()
     
     
     create_migrations()
