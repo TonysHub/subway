@@ -44,7 +44,7 @@ def hourlytraffic_to_plotly(df, line, station):
         fig.add_trace(trace_total)
 
     fig.update_layout(
-        title=f"시간별 유동인구 수",
+        title=f"Hourly 그래프 for {target_station} Station in 3 months",
         xaxis_title="시간(Hour)",
         yaxis_title="역내 유동인구 수",
         xaxis=dict(tickangle=0),
@@ -104,7 +104,7 @@ def dailytraffic_to_plotly(df, line, station):
 
     fig = go.Figure(data=answer)
     fig.update_layout(
-        title=f"일별 유동인구 수",
+        title=f"전체 승객수 in {target_station}역",
         xaxis_title="Date",
         yaxis_title="역내 유동인구 수",
         width=900,
